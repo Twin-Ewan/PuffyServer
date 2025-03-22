@@ -8,13 +8,13 @@ const port = 3000
 
 app.use(express.raw({type:"text/plain"}))
 
-app.use(express.static("./build"))
+app.use(express.static("./src"))
 
 app.get('/', (req, res) => {
 
   const Info = 5;
 
-  let file = fs.readFileSync("./build/Leaderboards.csv");
+  let file = fs.readFileSync("./src/Leaderboards.csv");
   let Data = String(file).split('\n');
 
   let Cruiser: string[] = [], Balance: string[] = [], Pipe: string[] = [];
@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
   Balance.reverse();
   Pipe.reverse();
   
-  let TempSite = fs.readFileSync("./build/template.html").toString();
+  let TempSite = fs.readFileSync("./src/template.html").toString();
 
   let Highscores: string = "";
 
@@ -116,7 +116,7 @@ app.post('/', (req, res) => {
     res.status(200); // "Received"
     res.send(req.body);
 
-    fs.appendFileSync("./build/Leaderboards.csv", String(req.body) + "\n");
+    fs.appendFileSync("./src/Leaderboards.csv", String(req.body) + "\n");
 
 })
 
