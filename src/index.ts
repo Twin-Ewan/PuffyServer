@@ -74,7 +74,7 @@ app.get('/', (req, res) => {
       {
         Minigame = Balance;
         TableTemplate = TableTemplate.replace("URL", "./templates/Lock Balance.png");
-        TableTemplate = TableTemplate.replace("Score", "Time (Seconds)");
+        TableTemplate = TableTemplate.replace("Score", "Time");
       }
       break;
 
@@ -82,7 +82,7 @@ app.get('/', (req, res) => {
         {
           Minigame = Cruiser;
           TableTemplate = TableTemplate.replace("URL", "./templates/Canal Cruiser.png");
-          TableTemplate = TableTemplate.replace("Score", "Crates Collection (%)");
+          TableTemplate = TableTemplate.replace("Score", "Crates Collection");
         }
       break;
 
@@ -90,14 +90,14 @@ app.get('/', (req, res) => {
         {
           Minigame = Pipe;
           TableTemplate = TableTemplate.replace("URL", "./templates/Pipe Panic.png");
-          TableTemplate = TableTemplate.replace("Score", "Time (Seconds)");
+          TableTemplate = TableTemplate.replace("Score", "Time");
         }
       break;
     }
 
     Highscores += TableTemplate;
 
-    for(let j = 0; j < 5; j++)
+    for(let j = 0; j < 5  && j < Minigame.length; j++)
     {
       Highscores += "\n<tr>";
 
