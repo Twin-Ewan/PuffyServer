@@ -1,0 +1,65 @@
+html {
+    background: #43324d;
+    background-image: url(Background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+    text-align: center;
+    color: black;
+    font-size:1.5em;
+}
+
+@font-face {
+    font-family: Harringt;
+    src: url(HARRINGT.TTF);
+}
+
+#MinigameImg {
+    width: 20%;
+    height: 10%;
+
+    padding: 0%;
+    margin-right: 77%;
+    margin-bottom: -5%;
+
+    transform: rotate(-10deg);
+}
+
+#Title {
+    margin-top: 5px;
+    margin-bottom: -8%;
+    padding: 0%;
+
+    width: 50%;
+    height: 40%;
+}
+
+table {
+    text-align: center;
+    width: 85%;
+
+    padding: 4px;
+    margin: 0px auto 10px auto;
+
+    background: #FBF4BD;
+    border: 10px solid transparent;
+
+    border-image: url(border.png) 30 round;
+}
+
+h1 {
+    margin: 30px 0px 0px 0px;
+}
+
+h3 {
+    margin: 10px 0px 0px 0px;
+    text-decoration: underline;
+}
+
+th {
+    text-decoration: underline;
+}
+
+td {
+    width: 20%;
+}

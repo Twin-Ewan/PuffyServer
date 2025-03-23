@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
   Balance.reverse();
   Pipe.reverse();
   
-  let TempSite = fs.readFileSync("./src/template.html").toString();
+  let TempSite = fs.readFileSync("./src/templates/site.html").toString();
 
   let Highscores: string = "";
 
@@ -66,27 +66,45 @@ app.get('/', (req, res) => {
   {
     let Minigame: string[] = [];
 
-    Highscores += "<table>\n<tr>\n<th>Name</th>\n<th>Minigame</th>\n<th>Canal</th>\n<th>Level</th>\n<th>Score</th>\n</tr>"
+    let TableTemplate = fs.readFileSync("./src/templates/table.html").toString()
 
     switch(a)
     {
-      case 0: Minigame = Balance;
+      case 0: 
+      {
+        Minigame = Balance;
+        TableTemplate = TableTemplate.replace("URL", "./templates/Lock Balance.png");
+        TableTemplate = TableTemplate.replace("Score", "Time (Seconds)");
+      }
       break;
 
-      case 1: Minigame = Cruiser;
+      case 1:
+        {
+          Minigame = Cruiser;
+          TableTemplate = TableTemplate.replace("URL", "./templates/Canal Cruiser.png");
+          TableTemplate = TableTemplate.replace("Score", "Crates Collection (%)");
+        }
       break;
 
-      case 2: Minigame = Pipe;
+      case 2:
+        {
+          Minigame = Pipe;
+          TableTemplate = TableTemplate.replace("URL", "./templates/Pipe Panic.png");
+          TableTemplate = TableTemplate.replace("Score", "Time (Seconds)");
+        }
       break;
     }
+
+    Highscores += TableTemplate;
 
     for(let j = 0; j < 5; j++)
     {
       Highscores += "\n<tr>";
 
+      let MinigameData = Minigame[j].split(',');
       for(let i = 0; i < Info; i++)
       {
-        let MinigameData = Minigame[j].split(',');
+        if(i == 1) continue; // Ignores Minigame Column
         Highscores += "<td>" + MinigameData[i] + "</td> \n";
       }
 
