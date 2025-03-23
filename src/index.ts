@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
   Balance.reverse();
   Pipe.reverse();
   
-  let TempSite = fs.readFileSync("./src/templates/site.html").toString();
+  let TempSite = fs.readFileSync("./src/templates/Site.html").toString();
 
   let Highscores: string = "";
 
@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
   {
     let Minigame: string[] = [];
 
-    let TableTemplate = fs.readFileSync("./src/templates/table.html").toString()
+    let TableTemplate = fs.readFileSync("./src/templates/Table.html").toString()
 
     switch(a)
     {
