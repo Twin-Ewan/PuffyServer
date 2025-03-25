@@ -1,4 +1,4 @@
-import { info } from 'console';
+import { info, table } from 'console';
 import express from 'express';
 import fs from 'fs';
 import { parse } from 'path';
@@ -36,29 +36,14 @@ app.get('/', (req, res) => {
 
   });
 
-  Balance.sort((a, b) =>
-  {
-    // Compares score (time) against each other
-    return SortScores(a, b)
-  })
+// Order the entries by level
+  Balance.sort((a, b) => { return SortScores(a, b, 3) })
+  Cruiser.sort((a, b) => { return SortScores(a, b, 3) })
+  Pipe.sort((a, b) => { return SortScores(a, b, 3) })
 
-  Cruiser.sort((a, b) =>
-  {
-      // Compares score (Crate Possible Percentage) against each other
-      return SortScores(a, b)
-  })
-
-  Pipe.sort((a, b) =>
-  {
-      // Compares score (time) against each other
-      return SortScores(a, b)
-  })
-
-  // Makes it whos the quickest instead
   Balance.reverse();
+  Cruiser.reverse();
   Pipe.reverse();
-  
-  let TempSite = fs.readFileSync("./src/templates/Site.html").toString();
 
   let Highscores: string = "";
 
@@ -66,7 +51,7 @@ app.get('/', (req, res) => {
   {
     let Minigame: string[] = [];
 
-    let TableTemplate = fs.readFileSync("./src/templates/Table.html").toString()
+    let TableTemplate = "<div>\n<img id=\"MinigameImg\" src=\"URL\">";
 
     switch(a)
     {
@@ -94,36 +79,65 @@ app.get('/', (req, res) => {
         }
       break;
     }
-
+    
     Highscores += TableTemplate;
+    let Level = 1, counter = 0;
 
-    for(let j = 0; j < 5  && j < Minigame.length; j++)
+    let LevelData: string[] = [];
+    for(let i = 0; i < Minigame.length; i++)
     {
-      Highscores += "\n<tr>";
-
-      let MinigameData = Minigame[j].split(',');
-      for(let i = 0; i < Info; i++)
+      if(Level != parseInt(Minigame[i].split(",")[3]))
       {
-        if(i == 1) continue; // Ignores Minigame Column
-        Highscores += "<td>" + MinigameData[i] + "</td> \n";
-      }
+        LevelData.sort((a, b) => { return SortScores(a, b, 4) })
+        
+        // Rank times shortest to longest
+        if(a == 0 || a == 2) LevelData.reverse();
 
-      Highscores += "</tr>";
+        let LevelTable = fs.readFileSync("./src/templates/Table.html").toString();
+        LevelTable = LevelTable.replace("Level 1", "Level " + Level);
+        Highscores += LevelTable;
+        
+        for(let j = 0; j < 5 && j < LevelData.length; j++)
+        {
+          Highscores += "<tr>\n";
+          let MinigameData = LevelData[j].split(",");
+          for(let k = 0; k < MinigameData.length; k++)
+          {
+            if(k == 1 || k == 3) continue;
+            Highscores += "<td>" + MinigameData[k] + "</td>\n";
+          }
+          Highscores += "</tr>"
+        }
+        
+        LevelData = [];
+        LevelData[0] = Minigame[i];
+        Level = parseInt(Minigame[i].split(",")[3]);
+        counter = 1;
+
+        Highscores += "</table>";
+      }
+      else
+      {
+        LevelData[counter] = Minigame[i];
+        counter++;
+      }
+      
     }
 
-    Highscores +="\n</table>"
+    Highscores += "</div>";
   }
 
-  TempSite = TempSite.replace("<!-- Data goes heres!! -->", Highscores)
+  let TempSite = fs.readFileSync("./src/templates/Site.html").toString();
+  TempSite = TempSite.replace("<!-- Data goes heres!! -->", Highscores);
 
   res.send(TempSite);
 })
 
-function SortScores(A: string, B: string) : number
+function SortScores(A: string, B: string, data: number) : number
 {
   // Score is the 4th comma
-  let ScoreA = parseFloat(A.split(',')[4]);
-  let ScoreB = parseFloat(B.split(',')[4]);
+  let ScoreA = parseFloat(A.split(',')[data]);
+  let ScoreB = parseFloat(B.split(',')[data]);
 
   return ScoreB - ScoreA;
 }

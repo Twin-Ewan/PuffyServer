@@ -19,10 +19,11 @@ html {
     height: 10%;
 
     padding: 0%;
-    margin-right: 77%;
-    margin-bottom: -5%;
+    margin-left: -93%;
+    margin-top: -2%;
+    margin-bottom: -3%;
 
-    transform: rotate(-10deg);
+    transform: rotate(-12deg);
 }
 
 #Title {
@@ -34,12 +35,12 @@ html {
     height: 40%;
 }
 
-table {
+div {
     text-align: center;
     width: 85%;
 
     padding: 4px;
-    margin: 0px auto 10px auto;
+    margin: 0px auto 30px auto;
 
     background: #FBF4BD;
     border: 10px solid transparent;
@@ -47,12 +48,17 @@ table {
     border-image: url(border.png) 30 round;
 }
 
+table {
+    width: 100%;
+    padding-bottom: 3%;
+}
+
 h1 {
     margin: 30px 0px 0px 0px;
 }
 
 h3 {
-    margin: 10px 0px 0px 0px;
+    margin: -2% 0px 0px 0px;
     text-decoration: underline;
 }
 
